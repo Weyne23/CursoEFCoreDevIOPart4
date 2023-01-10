@@ -7,7 +7,7 @@ namespace DominandoEFCore
         static void Main(string[] args)
         {
             //Console.WriteLine("Hello World!");
-            Collations();
+            Collations(); 
         }
 
         static void Collations()
