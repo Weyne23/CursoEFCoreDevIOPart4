@@ -27,6 +27,15 @@ namespace Curso.Data
             //João --> Joao -- Vai encontrar
             
             modelBuilder.Entity<Departamento>().Property(p => p.Descricao).UseCollation("SQL_Latin1_General_CP1_CS_AS");//Troca as regras de busca do banco de dados por entidade
+
+            modelBuilder.HasSequence<int>("MinhaSequencia", "sequencias")
+                .StartsAt(1)
+                .IncrementsBy(2)
+                .HasMin(1)
+                .HasMax(10)
+                .IsCyclic();
+            
+            modelBuilder.Entity<Departamento>().Property(p => p.Id).HasDefaultValueSql("NEXT VALUE FOR sequencias.MinhaSequencia");
         }
     }
 }
