@@ -11,6 +11,7 @@ namespace Curso.Data
     {
         public DbSet<Departamento> Departamentos { get; set; }
         public DbSet<Funcionario> Funcionarios { get; set; }
+        public DbSet<Estado> Estados { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -37,13 +38,21 @@ namespace Curso.Data
             
             // modelBuilder.Entity<Departamento>().Property(p => p.Id).HasDefaultValueSql("NEXT VALUE FOR sequencias.MinhaSequencia");
 
-            modelBuilder
-                .Entity<Departamento>()
-                .HasIndex(p => new { p.Descricao, p.Ativo })//Indices Composto
-                .HasDatabaseName("idx_meu_indice_composto")//Dar um nome ao indice
-                .HasFilter("Descricao IS NOT NULL")//Filtrar os campos
-                .HasFillFactor(80)
-                .IsUnique();//Para criar ele unico
+            // modelBuilder
+            //     .Entity<Departamento>()
+            //     .HasIndex(p => new { p.Descricao, p.Ativo })//Indices Composto
+            //     .HasDatabaseName("idx_meu_indice_composto")//Dar um nome ao indice
+            //     .HasFilter("Descricao IS NOT NULL")//Filtrar os campos
+            //     .HasFillFactor(80)
+            //     .IsUnique();//Para criar ele unico
+
+            modelBuilder.Entity<Estado>()
+                .HasData(new []
+                    {
+                        new Estado{Id = 1, Nome = "São Paulo"},
+                        new Estado{Id = 2, Nome = "Sergipe"}
+                    }
+                );
         }
     }
 }
