@@ -12,6 +12,7 @@ namespace Curso.Data
         public DbSet<Departamento> Departamentos { get; set; }
         public DbSet<Funcionario> Funcionarios { get; set; }
         public DbSet<Estado> Estados { get; set; }
+        public DbSet<Conversor> Conversores { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -54,9 +55,12 @@ namespace Curso.Data
             //         }
             //     );
 
-            modelBuilder.HasDefaultSchema("cadastros");
+            // modelBuilder.HasDefaultSchema("cadastros"); //Criacao de Schemas
 
-            modelBuilder.Entity<Estado>().ToTable("Estados", "SegundoEsquema");
+            // modelBuilder.Entity<Estado>().ToTable("Estados", "SegundoEsquema");
+            modelBuilder.Entity<Conversor>()
+            .Property(p => p.Versao)
+            .HasConversion<string>();
         }
     }
 }
