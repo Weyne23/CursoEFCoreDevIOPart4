@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Curso.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Curso.Data
 {
@@ -58,9 +59,16 @@ namespace Curso.Data
             // modelBuilder.HasDefaultSchema("cadastros"); //Criacao de Schemas
 
             // modelBuilder.Entity<Estado>().ToTable("Estados", "SegundoEsquema");
+            var conversao = new ValueConverter<Versao, string>(p => p.ToString(), p => (Versao)Enum.Parse(typeof(Versao), p));
+            
+            var conversao1 = new EnumToStringConverter<Versao>();
+
             modelBuilder.Entity<Conversor>()
             .Property(p => p.Versao)
-            .HasConversion<string>();
+            .HasConversion(conversao1);
+            //.HasConversion(conversao);
+            //.HasConversion(p => p.ToString(), p => (Versao)Enum.Parse(typeof(Versao), p));
+            //.HasConversion<string>();
         }
     }
 }
