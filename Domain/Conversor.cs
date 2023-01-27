@@ -12,6 +12,7 @@ namespace Curso.Domain
         public bool Ativo { get; set; }
         public bool Excluido { get; set; }
         public Versao Versao { get; set; }
+        public Status Status { get; set; }
         public IPAddress EnderecoIP { get; set; }
         
     }
@@ -22,5 +23,12 @@ namespace Curso.Domain
         EFCore2,
         EFCore3,
         EFCore5,
+    }
+
+    public enum Status
+    {
+        Analise,
+        Enviado,
+        Devolvido,
     }
 }
