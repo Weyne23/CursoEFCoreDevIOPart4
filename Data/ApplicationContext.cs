@@ -14,6 +14,7 @@ namespace Curso.Data
         public DbSet<Funcionario> Funcionarios { get; set; }
         public DbSet<Estado> Estados { get; set; }
         public DbSet<Conversor> Conversores { get; set; }
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -69,6 +70,10 @@ namespace Curso.Data
             //.HasConversion(conversao);
             //.HasConversion(p => p.ToString(), p => (Versao)Enum.Parse(typeof(Versao), p));
             //.HasConversion<string>();
+
+            modelBuilder.Entity<Conversor>()
+            .Property(p => p.Status)
+            .HasConversion(new Curso.Conversores.ConversorCustomizado());
         }
     }
 }
