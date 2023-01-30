@@ -74,6 +74,9 @@ namespace Curso.Data
             modelBuilder.Entity<Conversor>()
             .Property(p => p.Status)
             .HasConversion(new Curso.Conversores.ConversorCustomizado());
+        
+            modelBuilder.Entity<Departamento>()
+                .Property<DateTime>("UltimaAtualizacao"); //Criando propriedade de sombra
         }
     }
 }
