@@ -14,6 +14,7 @@ namespace Curso.Data
         public DbSet<Funcionario> Funcionarios { get; set; }
         public DbSet<Estado> Estados { get; set; }
         public DbSet<Conversor> Conversores { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
         
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -60,23 +61,42 @@ namespace Curso.Data
             // modelBuilder.HasDefaultSchema("cadastros"); //Criacao de Schemas
 
             // modelBuilder.Entity<Estado>().ToTable("Estados", "SegundoEsquema");
-            var conversao = new ValueConverter<Versao, string>(p => p.ToString(), p => (Versao)Enum.Parse(typeof(Versao), p));
+            // var conversao = new ValueConverter<Versao, string>(p => p.ToString(), p => (Versao)Enum.Parse(typeof(Versao), p));
             
-            var conversao1 = new EnumToStringConverter<Versao>();
+            // var conversao1 = new EnumToStringConverter<Versao>();
 
-            modelBuilder.Entity<Conversor>()
-            .Property(p => p.Versao)
-            .HasConversion(conversao1);
-            //.HasConversion(conversao);
-            //.HasConversion(p => p.ToString(), p => (Versao)Enum.Parse(typeof(Versao), p));
-            //.HasConversion<string>();
+            // modelBuilder.Entity<Conversor>()
+            // .Property(p => p.Versao)
+            // .HasConversion(conversao1);
+            // //.HasConversion(conversao);
+            // //.HasConversion(p => p.ToString(), p => (Versao)Enum.Parse(typeof(Versao), p));
+            // //.HasConversion<string>();
 
-            modelBuilder.Entity<Conversor>()
-            .Property(p => p.Status)
-            .HasConversion(new Curso.Conversores.ConversorCustomizado());
+            // modelBuilder.Entity<Conversor>()
+            // .Property(p => p.Status)
+            // .HasConversion(new Curso.Conversores.ConversorCustomizado());
         
-            modelBuilder.Entity<Departamento>()
-                .Property<DateTime>("UltimaAtualizacao"); //Criando propriedade de sombra
+            // modelBuilder.Entity<Departamento>()
+            //     .Property<DateTime>("UltimaAtualizacao"); //Criando propriedade de sombra
+
+            modelBuilder.Entity<Cliente>(p => 
+            {
+                p.OwnsOne(x => x.Endereco, end => 
+                {
+                    end.Property(p => p.Bairro).HasColumnName("Bairro");//Ser somente para criar a coluna com o nome que queremos
+
+                    end.ToTable("Endereco");//Aqui ele vai criar a tabela Endereço com as propriedades da classe endereco, sem essa linha ele cria todas as propriedades em cliente
+                });//Ele pega a clase Endereço e cria ela dentro de cliente, sem precisar ter a tabela endereco em si
+                // COMO FICOU A TABELA CLIENTE
+                // [Id] int NOT NULL IDENTITY,
+                // [Nome] nvarchar(max) NULL,
+                // [Telefone] nvarchar(max) NULL,
+                // [Endereco_Logradouro] nvarchar(max) NULL,
+                // [Endereco_Bairro] nvarchar(max) NULL,
+                // [Endereco_Cidade] nvarchar(max) NULL,
+                // [Endereco_Estado] nvarchar(max) NULL,
+                // CONSTRAINT [PK_Clientes] PRIMARY KEY ([Id])
+            });
         }
     }
 }

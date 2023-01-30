@@ -16,7 +16,8 @@ namespace DominandoEFCore
             //ConversorDeValores();
             //ConversorCustomizado();
             //PropriedadesDeSombra();
-            TrabalhandoComPropriedadesDeSombra();
+            //TrabalhandoComPropriedadesDeSombra();
+            TiposDePropriedades();
         }
 
         static void Collations()
@@ -97,6 +98,35 @@ namespace DominandoEFCore
             db.SaveChanges();*/ //Inserindo valor na propriedade de sombra
         
             var departamento = db.Departamentos.Where(p => EF.Property<DateTime>(p, "UltimaAtualizacao") < DateTime.Now).ToArray();
+        }
+
+        static void TiposDePropriedades()
+        {
+            using var db = new Curso.Data.ApplicationContext();
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+
+            var cliente = new Cliente
+            {
+                Nome = "Fulano de tal",
+                Telefone = "(79) 98888-9999",
+                Endereco = new Endereco { Bairro = "Centro", Cidade = "Sao Paulo" }
+            };
+
+            db.Clientes.Add(cliente);
+
+            db.SaveChanges();
+
+            var clientes = db.Clientes.AsNoTracking().ToList();
+
+            var options = new System.Text.Json.JsonSerializerOptions { WriteIndented = true };
+
+            clientes.ForEach(cli =>
+            {
+                var json = System.Text.Json.JsonSerializer.Serialize(cli, options);
+
+                Console.WriteLine(json);
+            });
         }
     }
 }
