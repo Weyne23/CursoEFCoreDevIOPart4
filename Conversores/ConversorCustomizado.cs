@@ -9,7 +9,11 @@ namespace Curso.Conversores
 {
     public class ConversorCustomizado : ValueConverter<Status, string>
     {
-        public ConversorCustomizado() : base(p => ConverterParaOBancoDeDados(p), value => ConverterParaAplicacao(value), new ConverterMappingHints(1))
+        public ConversorCustomizado() : base(
+            p => ConverterParaOBancoDeDados(p), //Converte Status (Enum) para dado de banco de dado(string)  
+            value => ConverterParaAplicacao(value), //Converte o dado de banco de dado(string) para Status (Enum)
+            new ConverterMappingHints(1)//Define o size do campo
+        )
         {
             
         }

@@ -14,7 +14,8 @@ namespace DominandoEFCore
             //PropagarDados();
             //Esquema();
             //ConversorDeValores();
-            ConversorCustomizado();
+            //ConversorCustomizado();
+            PropriedadesDeSombra();
         }
 
         static void Collations()
@@ -69,5 +70,12 @@ namespace DominandoEFCore
         }
 
         static void ConversorDeValores() => Esquema();
+
+        static void PropriedadesDeSombra()
+        {
+            using var db = new Curso.Data.ApplicationContext();
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+        }
     }
 }
