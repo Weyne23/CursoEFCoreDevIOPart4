@@ -15,7 +15,8 @@ namespace DominandoEFCore
             //Esquema();
             //ConversorDeValores();
             //ConversorCustomizado();
-            PropriedadesDeSombra();
+            //PropriedadesDeSombra();
+            TrabalhandoComPropriedadesDeSombra();
         }
 
         static void Collations()
@@ -76,6 +77,26 @@ namespace DominandoEFCore
             using var db = new Curso.Data.ApplicationContext();
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
+        }
+
+        static void TrabalhandoComPropriedadesDeSombra()
+        {
+            using var db = new Curso.Data.ApplicationContext();
+            /*db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+
+            var departamento = new Departamento
+            {
+                Descricao = "Departamento propriedade de sombra"
+            };
+            
+            db.Departamentos.Add(departamento);
+
+            db.Entry(departamento).Property("UltimaAtualizacao").CurrentValue = DateTime.Now;
+
+            db.SaveChanges();*/ //Inserindo valor na propriedade de sombra
+        
+            var departamento = db.Departamentos.Where(p => EF.Property<DateTime>(p, "UltimaAtualizacao") < DateTime.Now).ToArray();
         }
     }
 }
