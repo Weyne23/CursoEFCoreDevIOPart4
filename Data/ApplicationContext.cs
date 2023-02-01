@@ -18,6 +18,7 @@ namespace Curso.Data
         public DbSet<Conversor> Conversores { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Governador> Governadores { get; set; }
+        public DbSet<Cidade> Cidades { get; set; }
         
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

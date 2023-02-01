@@ -17,7 +17,14 @@ namespace Curso.Configurations
                 .WithOne(p => p.Estado)
                 .HasForeignKey<Governador>(p => p.EstadoReference);
 
-            builder.Navigation(p => p.Governador).AutoInclude();
+            builder.Navigation(p => p.Governador).AutoInclude();//Faz o include automatico
+        
+            
+            builder
+                .HasMany(g => g.Cidades)
+                .WithOne(e => e.Estado)
+                .IsRequired(false);// Permite inserir Cidades sem precisar do estado
+                //.OnDelete(DeleteBehavior.Restrict); // Troca a forma de exclusão
         }
     }
 }

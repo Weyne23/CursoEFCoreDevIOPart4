@@ -18,7 +18,8 @@ namespace DominandoEFCore
             //PropriedadesDeSombra();
             //TrabalhandoComPropriedadesDeSombra();
             //TiposDePropriedades();
-            Relacionamento1Para1();
+            //Relacionamento1Para1();
+            Relacionamento1ParaMuitos();
         }
 
         static void Collations()
@@ -152,6 +153,45 @@ namespace DominandoEFCore
             {
                 Console.WriteLine($"Estado: {est.Nome}, Governador: {est.Governador.Nome}");
             });
+        }
+
+        static void Relacionamento1ParaMuitos()
+        {
+            using (var db = new Curso.Data.ApplicationContext())
+            {
+                db.Database.EnsureDeleted();
+                db.Database.EnsureCreated();
+
+                var estado = new Estado
+                {
+                    Nome = "Sergipe",
+                    Governador = new Governador {Nome = "Rafael Almeida" }
+                };
+
+                estado.Cidades.Add(new Cidade { Nome = "Itabaina" });
+                db.Estados.Add(estado);
+
+                db.SaveChanges();
+            }
+            
+            using (var db = new Curso.Data.ApplicationContext())
+            {
+                var estados = db.Estados.ToList();
+
+                estados[0].Cidades.Add(new Cidade { Nome = "Aracaju" });
+
+                db.SaveChanges();
+
+                foreach (var est in db.Estados.Include(p => p.Cidades).AsNoTracking())
+                {
+                    Console.WriteLine($"Estado: {est.Nome}, Governador: {est.Governador.Nome}");
+
+                    foreach (var cidade in est.Cidades)
+                    {
+                        Console.WriteLine($"\t Cidade: {cidade.Nome}");
+                    }
+                }
+            }
         }
     }
 }
