@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using Curso.Configurations;
 using Curso.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -15,6 +17,7 @@ namespace Curso.Data
         public DbSet<Estado> Estados { get; set; }
         public DbSet<Conversor> Conversores { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Governador> Governadores { get; set; }
         
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -79,24 +82,28 @@ namespace Curso.Data
             // modelBuilder.Entity<Departamento>()
             //     .Property<DateTime>("UltimaAtualizacao"); //Criando propriedade de sombra
 
-            modelBuilder.Entity<Cliente>(p => 
-            {
-                p.OwnsOne(x => x.Endereco, end => 
-                {
-                    end.Property(p => p.Bairro).HasColumnName("Bairro");//Ser somente para criar a coluna com o nome que queremos
+            // modelBuilder.Entity<Cliente>(p => 
+            // {
+            //     p.OwnsOne(x => x.Endereco, end => 
+            //     {
+            //         end.Property(p => p.Bairro).HasColumnName("Bairro");//Ser somente para criar a coluna com o nome que queremos
 
-                    end.ToTable("Endereco");//Aqui ele vai criar a tabela Endereço com as propriedades da classe endereco, sem essa linha ele cria todas as propriedades em cliente
-                });//Ele pega a clase Endereço e cria ela dentro de cliente, sem precisar ter a tabela endereco em si
-                // COMO FICOU A TABELA CLIENTE
-                // [Id] int NOT NULL IDENTITY,
-                // [Nome] nvarchar(max) NULL,
-                // [Telefone] nvarchar(max) NULL,
-                // [Endereco_Logradouro] nvarchar(max) NULL,
-                // [Endereco_Bairro] nvarchar(max) NULL,
-                // [Endereco_Cidade] nvarchar(max) NULL,
-                // [Endereco_Estado] nvarchar(max) NULL,
-                // CONSTRAINT [PK_Clientes] PRIMARY KEY ([Id])
-            });
+            //         end.ToTable("Endereco");//Aqui ele vai criar a tabela Endereço com as propriedades da classe endereco, sem essa linha ele cria todas as propriedades em cliente
+            //     });//Ele pega a clase Endereço e cria ela dentro de cliente, sem precisar ter a tabela endereco em si
+            //     // COMO FICOU A TABELA CLIENTE
+            //     // [Id] int NOT NULL IDENTITY,
+            //     // [Nome] nvarchar(max) NULL,
+            //     // [Telefone] nvarchar(max) NULL,
+            //     // [Endereco_Logradouro] nvarchar(max) NULL,
+            //     // [Endereco_Bairro] nvarchar(max) NULL,
+            //     // [Endereco_Cidade] nvarchar(max) NULL,
+            //     // [Endereco_Estado] nvarchar(max) NULL,
+            //     // CONSTRAINT [PK_Clientes] PRIMARY KEY ([Id])
+            // });
+
+            //modelBuilder.ApplyConfiguration(new ClienteConfiguration()); // Uma das formas de aplicar o configuration
+            //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationContext).Assembly);
         }
     }
 }
