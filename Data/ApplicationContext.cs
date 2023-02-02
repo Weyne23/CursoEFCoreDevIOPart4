@@ -19,6 +19,8 @@ namespace Curso.Data
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Governador> Governadores { get; set; }
         public DbSet<Cidade> Cidades { get; set; }
+        public DbSet<Ator> Atores { get; set; }
+        public DbSet<Filme> Filmes { get; set; }
         
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
