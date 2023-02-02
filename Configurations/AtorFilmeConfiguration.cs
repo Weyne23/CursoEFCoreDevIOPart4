@@ -12,10 +12,23 @@ namespace Curso.Configurations
     {
         public void Configure(EntityTypeBuilder<Ator> builder) 
         {
+            // builder
+            //     .HasMany(g => g.Filmes)
+            //     .WithMany(p => p.Atores)
+            //     .UsingEntity(P => P.ToTable("AtoresFilmes"));
+
             builder
                 .HasMany(g => g.Filmes)
                 .WithMany(p => p.Atores)
-                .UsingEntity(P => P.ToTable("AtoresFilmes"));
+                .UsingEntity<Dictionary<string, object>>(
+                    "FilmesAtores",
+                    p => p.HasOne<Filme>().WithMany().HasForeignKey("FilmeId"),
+                    p => p.HasOne<Ator>().WithMany().HasForeignKey("AtorId"),
+                    p => 
+                    {
+                        p.Property<DateTime>("CadastradoEm").HasDefaultValueSql("GETDATE()");
+                    }
+                );
         }
     }
 }
