@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Curso.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,8 @@ namespace DominandoEFCore
             //Relacionamento1ParaMuitos();
             //RelacionamentoMuitosParaMuitos();
             //CampoDeApoio();
-            ExemploTPH();
+            //ExemploTPH();
+            PacotesDePropriedades();
         }
 
         static void Collations()
@@ -294,7 +296,35 @@ namespace DominandoEFCore
                     Console.WriteLine($"Id: {p.Id} -> {p.Nome}, Idade: {p.Idade}, Data do Contrato {p.DataContrato}");
                 }
             }
+        }
 
+        static void PacotesDePropriedades()
+        {
+            using(var db = new Curso.Data.ApplicationContext())
+            {
+                db.Database.EnsureDeleted();
+                db.Database.EnsureCreated();
+
+                var configuracao = new Dictionary<string, object>
+                {
+                    ["Chave"] = "SenhaBancoDeDados",
+                    ["Valor"] = Guid.NewGuid().ToString()
+                };
+
+                db.Configuracoes.Add(configuracao);
+                db.SaveChanges();
+
+                var Configuracoes = db
+                    .Configuracoes
+                    .AsNoTracking()
+                    .Where(p =>p["Chave"] == "SenhaBancoDeDados")
+                    .ToArray();
+
+                foreach (var dic in Configuracoes)
+                {
+                    Console.WriteLine($"Chave: {dic["Chave"]} - Valor: {dic["Valor"]}");
+                }
+            }
         }
     }
 }
