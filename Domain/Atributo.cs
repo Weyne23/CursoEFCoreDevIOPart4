@@ -8,13 +8,16 @@ namespace Curso.Domain
     public class Atributo
     {
         [Key]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]//Deixar que o banco de dados seja responsavel pela geração do valor
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]//Retira a geração automatica do valor, tendo que fazer de forma manual. (ps. Campo nao deixa de ser chave primaria)
         public int Id { get; set; }
 
         [Column("MinhaDescricao", TypeName = "VARCHAR(100)")]
         public string Descricao { get; set; }
 
-        [Required]
+        //[Required]
         [MaxLength(255)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]//Trasforma a propiedade em readonly
         public string Observacao { get; set; }
     }
 

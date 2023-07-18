@@ -328,6 +328,18 @@ namespace DominandoEFCore
             }
         }
 
+        // static void Atributos()
+        // {
+        //     using (var db = new Curso.Data.ApplicationContext())
+        //     {
+        //         db.Database.EnsureDeleted();
+        //         db.Database.EnsureCreated();
+        //         var script = db.Database.GenerateCreateScript();
+
+        //         Console.WriteLine(script);
+        //     }
+        // }
+
         static void Atributos()
         {
             using (var db = new Curso.Data.ApplicationContext())
@@ -337,6 +349,14 @@ namespace DominandoEFCore
                 var script = db.Database.GenerateCreateScript();
 
                 Console.WriteLine(script);
+
+                db.Atributos.Add(new Atributo
+                {
+                    Descricao = "Exemplo",
+                    Observacao = "Obvservacao"
+                });
+
+                db.SaveChanges();
             }
         }
     }
