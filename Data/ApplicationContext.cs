@@ -27,6 +27,7 @@ namespace Curso.Data
         public DbSet<Aluno> Alunos { get; set; }
         public DbSet<Dictionary<string, object>> Configuracoes => Set<Dictionary<string, object>>("Configuracoes");
         public DbSet<Atributo> Atributos { get; set; }
+        public DbSet<Aeroporto> Aeroportos { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             const string strConection = "Data source=(localdb)\\mssqllocaldb;Initial Catalog=DevIO-02;Integrated Security=true;pooling=true";
