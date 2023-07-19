@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -23,6 +24,14 @@ namespace Curso.Domain
         [MaxLength(255)]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]//Trasforma a propiedade em readonly
         public string Observacao { get; set; }
+    }
+
+    [Keyless]
+    public class RelatorioFinanceiro
+    {
+        public string Descricao { get; set; }
+        public decimal Total { get; set; }
+        public DateTime Data { get; set; }
     }
 
     public class Aeroporto
