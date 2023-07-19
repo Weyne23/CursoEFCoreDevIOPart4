@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Curso.Domain
 {
@@ -17,7 +18,8 @@ namespace Curso.Domain
 
             _cpf = cpf;
         }
-
+        [BackingField(nameof(_cpf))]
+        public string CPF => _cpf;
         public string GetCPF() => _cpf;
     }
 }
