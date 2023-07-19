@@ -7,6 +7,7 @@ namespace Curso.Domain
 {
     [Table("TabelaAtributos")]
     [Index(nameof(Descricao), nameof(Id), IsUnique = true)]
+    [Comment("Meu comentario de minha tabela.")]
     public class Atributo
     {
         [Key]
@@ -15,6 +16,7 @@ namespace Curso.Domain
         public int Id { get; set; }
 
         [Column("MinhaDescricao", TypeName = "VARCHAR(100)")]
+        [Comment("Meu comentario para meu campo.")]
         public string Descricao { get; set; }
 
         //[Required]
